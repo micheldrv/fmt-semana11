@@ -15,6 +15,10 @@ public class Nota {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "caderno_id")
+    private Caderno caderno;
+
     private String titulo;
     private String conteudo;
 }
