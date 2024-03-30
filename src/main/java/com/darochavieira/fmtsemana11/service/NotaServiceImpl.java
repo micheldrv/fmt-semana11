@@ -26,7 +26,9 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public List<Nota> findAllByCadernoId(Long cadernoId) {
-        return notaRepository.findAllByCadernoId(cadernoId);
+        cadernoService.findById(cadernoId);
+        Usuario usuario = usuarioService.getCurrentUser();
+        return notaRepository.findAllByCadernoIdAndUsuarioId(cadernoId, usuario.getId());
     }
 
     @Override
@@ -45,41 +47,25 @@ public class NotaServiceImpl implements NotaService {
     }
 
     @Override
-    public Nota save(Nota nota) {
+    public Nota save(Nota nota, Long cadernoId) {
         Usuario usuario = usuarioService.getCurrentUser();
+        Caderno caderno = cadernoService.findById(cadernoId);
 
         nota.setId(null);
         nota.setUsuario(usuario);
-
-        Caderno caderno = nota.getCaderno();
-
-        if (caderno == null) {
-            throw new RuntimeException("Caderno não encontrado.");
-        }
-
-        Long cadernoId = caderno.getId();
-        caderno = cadernoService.findById(cadernoId);
         nota.setCaderno(caderno);
 
         return notaRepository.save(nota);
     }
 
     @Override
-    public Nota update(Long id, Nota nota) {
+    public Nota update(Long id, Nota nota,Long cadernoId) {
         Usuario usuario = usuarioService.getCurrentUser();
+        Caderno caderno = cadernoService.findById(cadernoId);
 
         findById(id);
         nota.setId(id);
         nota.setUsuario(usuario);
-
-        Caderno caderno = nota.getCaderno();
-
-        if (caderno == null) {
-            throw new RuntimeException("Caderno não encontrado.");
-        }
-
-        Long cadernoId = caderno.getId();
-        caderno = cadernoService.findById(cadernoId);
         nota.setCaderno(caderno);
 
         return notaRepository.save(nota);

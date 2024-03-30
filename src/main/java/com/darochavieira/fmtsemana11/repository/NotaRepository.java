@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface NotaRepository extends JpaRepository<Nota, Long> {
     List<Nota> findAllByUsuarioId(Long usuarioId);
-    List<Nota> findAllByCadernoId(Long cadernoId);
+    List<Nota> findAllByCadernoIdAndUsuarioId(Long cadernoId, Long usuarioId);
     Optional<Nota> findByIdAndUsuarioId(Long id, Long usuarioId);
 }

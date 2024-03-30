@@ -4,6 +4,7 @@ import com.darochavieira.fmtsemana11.entity.Nota;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

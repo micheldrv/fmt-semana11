@@ -32,9 +32,18 @@ public class NotaController {
         return ResponseEntity.status(status).body(new NotaDto(nota));
     }
 
+    @GetMapping("/caderno/{cadernoId}")
+    public ResponseEntity<List<NotaDto>> findAllByCadernoId(@PathVariable Long cadernoId) {
+        List<Nota> notas = notaService.findAllByCadernoId(cadernoId);
+
+        HttpStatus status = HttpStatus.OK;
+        return ResponseEntity.status(status).body(NotaDto.from(notas));
+    }
+
     @PostMapping
     public ResponseEntity<NotaDto> save(@RequestBody NotaDto notaDto) {
-        Nota nota = notaService.save(notaDto.toEntity());
+        Long cadernoId = notaDto.getCadernoId();
+        Nota nota = notaService.save(notaDto.toEntity(), cadernoId);
 
         HttpStatus status = HttpStatus.CREATED;
         return ResponseEntity.status(status).body(new NotaDto(nota));
@@ -45,7 +54,8 @@ public class NotaController {
             @PathVariable Long id,
             @RequestBody NotaDto notaDto
     ) {
-        Nota nota = notaService.update(id, notaDto.toEntity());
+        Long cadernoId = notaDto.getCadernoId();
+        Nota nota = notaService.update(id, notaDto.toEntity(), cadernoId);
 
         HttpStatus status = HttpStatus.OK;
         return ResponseEntity.status(status).body(new NotaDto(nota));

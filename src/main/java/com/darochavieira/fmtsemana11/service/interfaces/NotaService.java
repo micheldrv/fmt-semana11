@@ -9,7 +9,7 @@ public interface NotaService {
     List<Nota> findAllByCadernoId(Long cadernoId);
     List<Nota> findAll();
     Nota findById(Long id);
-    Nota save(Nota nota);
-    Nota update(Long id, Nota nota);
+    Nota save(Nota nota, Long cadernoId);
+    Nota update(Long id, Nota nota, Long cadernoId);
     void deleteById(Long id);
 }

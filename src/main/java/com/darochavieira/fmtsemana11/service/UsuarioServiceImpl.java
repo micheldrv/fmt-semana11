@@ -5,14 +5,17 @@ import com.darochavieira.fmtsemana11.entity.Usuario;
 import com.darochavieira.fmtsemana11.repository.UsuarioRepository;
 import com.darochavieira.fmtsemana11.service.interfaces.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario findByEmail(String email) {
@@ -35,7 +38,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("Email já cadastrado.");
         }
 
-        // TODO: encriptar senha
+        String senhaAtual = usuario.getSenha();
+        String senhaEncriptada = passwordEncoder.encode(senhaAtual);
+        usuario.setSenha(senhaEncriptada);
 
         usuarioRepository.save(usuario);
     }
